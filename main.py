@@ -1,36 +1,50 @@
 import pygame
-import tkinter
 
-# Инициализация модулей pygame
+# Инициализируем модуль pygame
 pygame.init()
 
-# Задаем количество кадров в секунду для приложения
+# Создаем необходимые константы
 FPS = 60
+DISPLAY_WIDTH = 500
+DISPLAY_HEIGHT = 200
+CIRCLE_COLOR = (0, 255, 127)
+BG_COLOR = (0, 0, 0)
+speed_x = 5
+x = 55
+y = 100
+R = 50
 
-# Задаем необходимые цвета
-LIGHTGREEN = (0, 255, 127)
-
-# Задаем объекты, создаем главное окно
+# Создаем главное окно и объект класса Clock
+display = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
 clock = pygame.time.Clock()
-display = pygame.display.set_mode((600, 400))
-pygame.display.set_caption("My first game")
 
 
-# Создаем фигуры
-pygame.draw.rect(display, LIGHTGREEN, (50, 50, 100, 100))
-pygame.display.update()
-
-
-# Функция для бесконечного цикла и обработчика событий
+# Главная функция
 def main():
+    global x, speed_x
     run = True
     while run:
-        # Создаем задержку
-        clock.tick(FPS)
-        # Обработчик для нажатия на Х
+        # Заполняем главное окно белым цветом
+        display.fill(BG_COLOR)
+
+        if (x + R >= DISPLAY_WIDTH) or (x - R <= 0):
+            speed_x = -speed_x
+
+        pygame.draw.circle(display, CIRCLE_COLOR, (x, y), R, 5)
+
         for event in pygame.event.get():
+            # Обработчик для нажатия на крестик
             if event.type == pygame.QUIT:
                 return
+
+        # Обновляем дисплей для отображения круга
+        pygame.display.update()
+
+        # Перемещаем центр круга по горизонтали
+        x += speed_x
+
+        # С какой частотой кадров в секунду будет работать программа
+        clock.tick(FPS)
 
 
 if __name__ == "__main__":
