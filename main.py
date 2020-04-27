@@ -9,7 +9,7 @@ DISPLAY_WIDTH = 500
 DISPLAY_HEIGHT = 200
 CIRCLE_COLOR = (0, 255, 127)
 BG_COLOR = (0, 0, 0)
-speed_x = 5
+speed_x = 10
 x = 55
 y = 100
 R = 50
@@ -27,21 +27,20 @@ def main():
         # Заполняем главное окно белым цветом
         display.fill(BG_COLOR)
 
-        if (x + R >= DISPLAY_WIDTH) or (x - R <= 0):
-            speed_x = -speed_x
-
         pygame.draw.circle(display, CIRCLE_COLOR, (x, y), R, 5)
 
         for event in pygame.event.get():
             # Обработчик для нажатия на крестик
             if event.type == pygame.QUIT:
                 return
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RIGHT:
+                    x += speed_x
+                elif event.key == pygame.K_LEFT:
+                    x -= speed_x
 
         # Обновляем дисплей для отображения круга
         pygame.display.update()
-
-        # Перемещаем центр круга по горизонтали
-        x += speed_x
 
         # С какой частотой кадров в секунду будет работать программа
         clock.tick(FPS)
